@@ -38,14 +38,14 @@ add_dir_if_exists '/private/tmp'
 add_dir_if_exists '/private/var'
 
 FG_FILES_OUT="$(exec_as_user_without_prefix mktemp)"
-log_debug "Generating files list to $FG_FILES_OUT..."
+log_debug "Generating files list to: $FG_FILES_OUT"
 /usr/local/bin/flamegraph_files.pl $fg_dirs > "$FG_FILES_OUT"
 
 OUT_FILE="$OUT_DIR/$SS_ID.svg"
 if ! test -f "$OUT_FILE"; then
 	exec_as_user touch "$OUT_FILE"
 fi
-log_debug "Generating graph and outputting to $OUT_FILE..."
+log_debug "Generating graph and outputting to: $OUT_FILE"
 exec_as_user_without_prefix /usr/local/bin/flamegraph.pl \
 	--hash \
 	--width=1600 \
