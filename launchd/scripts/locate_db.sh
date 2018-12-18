@@ -13,3 +13,5 @@ export LOCATE_PATH="$SS_USER_HOME/tmp/locate.database"
 /usr/local/bin/gupdatedb \
 	--output="$LOCATE_PATH" \
 	--prunepaths='/tmp /var'
+
+log_finished
