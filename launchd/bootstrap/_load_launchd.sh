@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 shopt -s expand_aliases; set -o errtrace
-S="${BASH_SOURCE[0]}"; while [ -h "$S" ]; do D="$( cd -P "$( dirname "$S" )" && pwd )"; S="$(readlink "$S")"; [[ $S != /* ]] && S="$D/$S"; done; SCRIPT_DIR="$( cd -P "$( dirname "$S" )" && pwd )"
-LAUNCHD_CONFIG_HOME=$(grealpath "$SCRIPT_DIR/../config")
+S="${BASH_SOURCE[0]}"; while [ -h "$S" ]; do D="$( cd -P "$( dirname "$S" )" && pwd )"; S="$(readlink "$S")"; [[ $S != /* ]] && S="$D/$S"; done; _SCRIPT_DIR="$( cd -P "$( dirname "$S" )" && pwd )"; unset S D
+LAUNCHD_CONFIG_HOME="$(grealpath "$_SCRIPT_DIR/../config")"
 load_as_daemon=false
 load_as_global=false
 
