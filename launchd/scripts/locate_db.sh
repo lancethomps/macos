@@ -9,9 +9,22 @@ source "$_SCRIPT_DIR/common/common.sh"
 log_starting
 
 export LOCATE_PATH="$SS_USER_HOME/tmp/locate.database"
+_LOCALPATHS=(
+  /Applications
+  /bin
+  /etc
+  /Library
+  /opt
+  /sbin
+  /System
+  /Users/Shared
+  "$SS_USER_HOME"
+  /usr
+)
 
 /usr/local/bin/gupdatedb \
 	--output="$LOCATE_PATH" \
+  --localpaths="${_LOCALPATHS[*]}" \
 	--prunepaths='/tmp /var'
 
 log_finished
