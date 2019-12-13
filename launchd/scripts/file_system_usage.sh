@@ -8,7 +8,7 @@ source "$_SCRIPT_DIR/common/common.sh"
 OUT_DIR="$SS_USER_HOME/.logs/fs"
 
 if [ ! -d "$OUT_DIR" ]; then
-	exec_as_user mkdir -pv "$OUT_DIR"
+  exec_as_user mkdir -pv "$OUT_DIR"
 fi
 
 log_starting
@@ -16,15 +16,15 @@ pull_from_git_repo "$OUT_DIR"
 
 fg_dirs=""
 function add_dir_if_exists () {
-	if test -d "$1"; then
-		log_debug "Adding to scanned directories: $1"
-		if test -z "$fg_dirs"; then
-			fg_dirs="$1"
-		else
-			fg_dirs="$fg_dirs $1"
-		fi
-	fi
-	return 0
+  if test -d "$1"; then
+    log_debug "Adding to scanned directories: $1"
+    if test -z "$fg_dirs"; then
+      fg_dirs="$1"
+    else
+      fg_dirs="$fg_dirs $1"
+    fi
+  fi
+  return 0
 }
 
 add_dir_if_exists '/Applications'
@@ -43,17 +43,17 @@ log_debug "Generating files list to: $FG_FILES_OUT"
 
 OUT_FILE="$OUT_DIR/$SS_ID.svg"
 if ! test -f "$OUT_FILE"; then
-	exec_as_user touch "$OUT_FILE"
+  exec_as_user touch "$OUT_FILE"
 fi
 log_debug "Generating graph and outputting to: $OUT_FILE"
 exec_as_user_without_prefix /usr/local/bin/flamegraph.pl \
-	--hash \
-	--width=1600 \
-	--height=32 \
-	--colors='hot' \
-	--title="File System Usage: $(date)" \
-	--countname=bytes \
-	"$FG_FILES_OUT" > "$OUT_FILE"
+  --hash \
+  --width=1600 \
+  --height=32 \
+  --colors='hot' \
+  --title="File System Usage: $(date)" \
+  --countname=bytes \
+  "$FG_FILES_OUT" > "$OUT_FILE"
 
 rm "$FG_FILES_OUT"
 

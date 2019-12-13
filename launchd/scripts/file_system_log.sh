@@ -10,18 +10,18 @@ OUT_DIR="$SS_USER_HOME/.logs/fs"
 FIND_LOC="$(find_command_loc find)"
 
 if [ ! -d "$OUT_DIR" ]; then
-	exec_as_user mkdir -pv "$OUT_DIR"
+  exec_as_user mkdir -pv "$OUT_DIR"
 fi
 
 log_starting
 pull_from_git_repo "$OUT_DIR"
 
 function log_getting_snapshot() {
-	log_debug "Getting snapshot: $@"
+  log_debug "Getting snapshot: $@"
 }
 function find_with_default_args () {
-	local base="$1"; shift
-	${FIND_LOC} -H "$base" \( -type l -o -type f \) ! -path '*.DS_Store' ! -path '*/.git/*' "$@" -ls
+  local base="$1"; shift
+  ${FIND_LOC} -H "$base" \( -type l -o -type f \) ! -path '*.DS_Store' ! -path '*/.git/*' "$@" -ls
 }
 
 # Log any modified files in critical directories

@@ -10,8 +10,8 @@ from os import getenv, path
 TZ_OFFSET = time.strftime('%z')
 
 def log_debug(msg):
-	"""Print a debug message"""
-	print("{0} {1} (ProcessStats) DEBUG {2}".format(datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3], TZ_OFFSET, msg))
+  """Print a debug message"""
+  print("{0} {1} (ProcessStats) DEBUG {2}".format(datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')[:-3], TZ_OFFSET, msg))
 
 log_debug("Starting ProcessStats...")
 
@@ -28,11 +28,11 @@ DB_FILE = getenv('HOME') + "/.logs/stats.db"
 DB_EXISTS = path.isfile(DB_FILE)
 
 if USE_DB:
-	STATS_DB = sqlite3.connect(DB_FILE)
-	DB_CURSOR = STATS_DB.cursor()
+  STATS_DB = sqlite3.connect(DB_FILE)
+  DB_CURSOR = STATS_DB.cursor()
 
 if USE_DB and DB_EXISTS is False:
-	DB_CURSOR.execute("CREATE TABLE processes (timestamp text, uid integer, user text, pid integer, ppid integer, start_time text, cpu_pct real, mem_pct real, cpu_time text, command text)")
+  DB_CURSOR.execute("CREATE TABLE processes (timestamp text, uid integer, user text, pid integer, ppid integer, start_time text, cpu_pct real, mem_pct real, cpu_time text, command text)")
 
 PS = subprocess.Popen(['ps', '-Ao', 'uid,user,pid,ppid,start,%cpu,%mem,time,command'], stdout=subprocess.PIPE).communicate()[0]
 PROCESSES = PS.split('\n')
@@ -42,17 +42,17 @@ del PROCESSES[-1]
 FIELDS = PROCESSES[0].split()
 NFIELDS = len(FIELDS) - 1
 for row in PROCESSES[1:]:
-	ROW_VALS = [CURR_TIME] + row.split(None, NFIELDS)
-	# ROW_VALS[5] = datetime.strptime(ROW_VALS[5], "%c").strftime("%FT%TZ")
-	if not USE_DB or ARGS.verbose:
-		print(ROW_VALS)
+  ROW_VALS = [CURR_TIME] + row.split(None, NFIELDS)
+  # ROW_VALS[5] = datetime.strptime(ROW_VALS[5], "%c").strftime("%FT%TZ")
+  if not USE_DB or ARGS.verbose:
+    print(ROW_VALS)
 
-	if USE_DB:
-		# pylint: disable=C0301
-		DB_CURSOR.execute("INSERT INTO PROCESSES values (?,?,?,?,?,?,?,?,?,?)", (ROW_VALS[0], ROW_VALS[1], ROW_VALS[2], ROW_VALS[3], ROW_VALS[4], ROW_VALS[5], ROW_VALS[6], ROW_VALS[7], ROW_VALS[8], ROW_VALS[9]))
+  if USE_DB:
+    # pylint: disable=C0301
+    DB_CURSOR.execute("INSERT INTO PROCESSES values (?,?,?,?,?,?,?,?,?,?)", (ROW_VALS[0], ROW_VALS[1], ROW_VALS[2], ROW_VALS[3], ROW_VALS[4], ROW_VALS[5], ROW_VALS[6], ROW_VALS[7], ROW_VALS[8], ROW_VALS[9]))
 
 if USE_DB:
-	STATS_DB.commit()
-	STATS_DB.close()
+  STATS_DB.commit()
+  STATS_DB.close()
 
 log_debug("Finished ProcessStats")

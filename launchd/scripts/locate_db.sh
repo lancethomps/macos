@@ -23,8 +23,8 @@ _LOCALPATHS=(
 )
 
 /usr/local/bin/gupdatedb \
-	--output="$LOCATE_PATH" \
+  --output="$LOCATE_PATH" \
   --localpaths="${_LOCALPATHS[*]}" \
-	--prunepaths='/tmp /var'
+  --prunepaths='/tmp /var'
 
 log_finished
