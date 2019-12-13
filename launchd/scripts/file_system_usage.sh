@@ -7,7 +7,7 @@ SS_ID="FileSystemUsage"
 source "$_SCRIPT_DIR/common/common.sh"
 OUT_DIR="$SS_USER_HOME/.logs/fs"
 
-if [ ! -d "$OUT_DIR" ]; then
+if ! test -d "$OUT_DIR"; then
   exec_as_user mkdir -pv "$OUT_DIR"
 fi
 
@@ -26,16 +26,33 @@ function add_dir_if_exists () {
   fi
   return 0
 }
+function add_dir_if_exists_except () {
+  local subdir
+  if test -d "$1"; then
+    for subdir in "$1/"*; do
+      if test -d "$subdir" && ! echo "$subdir" | grep -qE "$2"; then
+        log_debug "Adding to scanned directories: $subdir"
+        if test -z "$fg_dirs"; then
+          fg_dirs="$subdir"
+        else
+          fg_dirs="$fg_dirs $subdir"
+        fi
+      fi
+    done
+  fi
+  return 0
+}
 
+add_dir_if_exists_except '/private/var/folders' '/private/var/folders/zz'
+add_dir_if_exists_except '/private/var' '/private/var/folders'
 add_dir_if_exists '/Applications'
 add_dir_if_exists '/Library'
 add_dir_if_exists '/opt'
-add_dir_if_exists '/System'
+add_dir_if_exists_except '/System' '/System/Volumes'
 add_dir_if_exists '/Users'
 add_dir_if_exists '/usr'
 add_dir_if_exists '/private/etc'
 add_dir_if_exists '/private/tmp'
-add_dir_if_exists '/private/var'
 
 FG_FILES_OUT="$(exec_as_user_without_prefix mktemp)"
 log_debug "Generating files list to: $FG_FILES_OUT"
@@ -56,6 +73,40 @@ exec_as_user_without_prefix /usr/local/bin/flamegraph.pl \
   "$FG_FILES_OUT" > "$OUT_FILE"
 
 rm "$FG_FILES_OUT"
+
+_py_code=$(
+  cat << EOF
+from typing import Match
+
+from ltpylib import files
+
+sizes = [
+  (1000000.0, "MB"),
+  (1000000000.0, "GB"),
+]
+
+def repl(match: Match) -> str:
+  size: float = float(match.group(1).replace(',', ''))
+  div: float = None
+  desc: str = None
+  for size_pair in sizes:
+    if div is None:
+      div = size_pair[0]
+      desc = size_pair[1]
+      continue
+
+    if size > size_pair[0]:
+      div = size_pair[0]
+      desc = size_pair[1]
+
+  size = float(size) / div
+  return "(" + "{0:,.2f}".format(size) + " " + desc
+
+files.replace_matches_in_file("$OUT_FILE", r"\(([0-9,]+) bytes", repl)
+EOF
+)
+
+exec_as_user_without_prefix "$SS_USER_HOME/.pyenv/shims/python3" -c "$_py_code"
 
 push_to_git_repo "$OUT_DIR"
 log_finished
