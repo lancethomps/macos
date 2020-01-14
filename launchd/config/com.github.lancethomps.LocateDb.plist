@@ -18,7 +18,7 @@
     <dict>
       <key>PathState</key>
       <dict>
-        <key>/Users/${USER}/tmp/locate.database</key>
+        <key>/Users/${USER}/locate.database</key>
         <false/>
       </dict>
     </dict>

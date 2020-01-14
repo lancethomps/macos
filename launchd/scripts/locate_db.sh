@@ -9,18 +9,37 @@ source "$_SCRIPT_DIR/common/common.sh"
 log_starting
 
 export LOCATE_PATH="$SS_USER_HOME/locate.database"
-_LOCALPATHS=(
-  /Applications
-  /bin
-  /etc
-  /Library
-  /opt
-  /sbin
-  /System
-  /Users/Shared
-  "$SS_USER_HOME"
-  /usr
-)
+export _LOCALPATHS=()
+
+function add_dir_if_exists () {
+  if test -d "$1"; then
+    log_debug "Adding to scanned directories: $1"
+    _LOCALPATHS+=("$1")
+  fi
+  return 0
+}
+function add_dir_if_exists_except () {
+  local subdir
+  if test -d "$1"; then
+    for subdir in "$1/"*; do
+      if test -d "$subdir" && ! echo "$subdir" | grep -qE "$2"; then
+        log_debug "Adding to scanned directories: $subdir"
+        _LOCALPATHS+=("$subdir")
+      fi
+    done
+  fi
+  return 0
+}
+
+add_dir_if_exists '/Applications'
+add_dir_if_exists '/bin'
+add_dir_if_exists '/etc'
+add_dir_if_exists '/Library'
+add_dir_if_exists '/opt'
+add_dir_if_exists '/sbin'
+# add_dir_if_exists_except '/System' '(/System/Volumes)'
+add_dir_if_exists '/Users'
+add_dir_if_exists '/usr'
 
 /usr/local/bin/gupdatedb \
   --output="$LOCATE_PATH" \
