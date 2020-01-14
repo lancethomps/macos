@@ -8,7 +8,7 @@ source "$_SCRIPT_DIR/common/common.sh"
 
 log_starting
 
-export LOCATE_PATH="$SS_USER_HOME/tmp/locate.database"
+export LOCATE_PATH="$SS_USER_HOME/locate.database"
 _LOCALPATHS=(
   /Applications
   /bin
