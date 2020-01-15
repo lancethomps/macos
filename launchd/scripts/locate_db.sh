@@ -38,7 +38,8 @@ add_dir_if_exists '/Library'
 add_dir_if_exists '/opt'
 add_dir_if_exists '/sbin'
 # add_dir_if_exists_except '/System' '(/System/Volumes)'
-add_dir_if_exists '/Users'
+add_dir_if_exists '/Users/Shared'
+add_dir_if_exists "$SS_USER_HOME"
 add_dir_if_exists '/usr'
 
 /usr/local/bin/gupdatedb \
