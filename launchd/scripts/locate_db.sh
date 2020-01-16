@@ -4,7 +4,7 @@ set -e
 set -o errtrace
 SS_ID="LocateDb"
 
-source "$_SCRIPT_DIR/common/common.sh"
+source "$_SCRIPT_DIR/common/common_non_root.sh"
 
 log_starting
 

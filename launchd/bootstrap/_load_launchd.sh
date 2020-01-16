@@ -73,7 +73,7 @@ fi
 launchd_out="$launchd_path/$launchd_type/$LAUNCHD_FILE"
 
 temp_config="$(mktemp -d)/$LAUNCHD_FILE"
-echo "LaunchDaemon config is below..."
+echo "$launchd_type config is below..."
 echo
 cat "$LAUNCHD_CONFIG_HOME/$LAUNCHD_FILE" | replace_contents_with_env_vars | tee "$temp_config"
 echo
