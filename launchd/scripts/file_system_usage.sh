@@ -65,7 +65,7 @@ fi
 log_debug "Generating graph and outputting to: $OUT_FILE"
 exec_as_user_without_prefix /usr/local/bin/flamegraph.pl \
   --hash \
-  --width=1600 \
+  --width=2000 \
   --height=32 \
   --colors='hot' \
   --title="File System Usage: $(date)" \
