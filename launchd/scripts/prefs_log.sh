@@ -4,7 +4,7 @@ set -e
 set -o errtrace
 SS_ID="PrefsLog"
 
-source "$_SCRIPT_DIR/common/common.sh"
+source "$_SCRIPT_DIR/common/launchd_common.sh"
 OUT_DIR="$SS_USER_HOME/prefs"
 
 RSYNC_LOC="$(find_command_loc rsync)"

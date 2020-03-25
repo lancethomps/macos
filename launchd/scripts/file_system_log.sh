@@ -3,7 +3,7 @@ S="${BASH_SOURCE[0]}"; while [ -h "$S" ]; do D="$( cd -P "$( dirname "$S" )" && 
 set -o errexit -o errtrace
 SS_ID="FileSystemLog"
 
-source "$_SCRIPT_DIR/common/common.sh"
+source "$_SCRIPT_DIR/common/launchd_common.sh"
 OUT_DIR="$SS_USER_HOME/.logs/fs"
 
 FIND_LOC="$(find_command_loc find)"

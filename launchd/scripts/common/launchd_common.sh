@@ -5,7 +5,7 @@ if [ "$(id -u)" -ne 0 ]; then
   exit 1
 fi
 
-source "$_SCRIPT_DIR/common/common_non_root.sh"
+source "$_SCRIPT_DIR/common/launchd_common_non_root.sh"
 
 function exec_as_user_without_prefix () {
   sudo -u "$current_user" "$@"

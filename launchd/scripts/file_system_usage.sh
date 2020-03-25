@@ -4,7 +4,7 @@ set -e
 set -o errtrace
 SS_ID="FileSystemUsage"
 
-source "$_SCRIPT_DIR/common/common.sh"
+source "$_SCRIPT_DIR/common/launchd_common.sh"
 OUT_DIR="$SS_USER_HOME/.logs/fs"
 
 if ! test -d "$OUT_DIR"; then
