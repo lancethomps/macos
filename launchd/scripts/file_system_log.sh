@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 S="${BASH_SOURCE[0]}"; while [ -h "$S" ]; do D="$( cd -P "$( dirname "$S" )" && pwd )"; S="$(readlink "$S")"; [[ $S != /* ]] && S="$D/$S"; done; _SCRIPT_DIR="$( cd -P "$( dirname "$S" )" && pwd )"; unset S D
-set -e
-set -o errtrace
+set -o errexit -o errtrace
 SS_ID="FileSystemLog"
 
 source "$_SCRIPT_DIR/common/common.sh"
@@ -17,7 +16,7 @@ log_starting
 pull_from_git_repo "$OUT_DIR"
 
 function log_getting_snapshot() {
-  log_debug "Getting snapshot: $@"
+  log_debug "Getting snapshot: $*"
 }
 function find_with_default_args () {
   local base="$1"; shift
