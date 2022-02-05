@@ -33,29 +33,6 @@ function confirm () {
     *) echo "Incorrect value entered... Try again."; confirm "$@" ;;
   esac
 }
-function replace_contents_with_env_vars () {
-  [ -t 0 ] && contents="$1" && shift || contents=$(cat)
-  local sed_cmd='sed -E'
-  local has_vars=false
-  local found_vars='@'
-  local var_name
-  for found_var in $(echo "$contents" | command grep -ioE '\$\{([a-zA-Z_]+)\}'); do
-    if [[ "$found_vars" == *"@$found_var@"* ]]; then
-      continue
-    else
-      found_vars="$found_vars$found_var@"
-    fi
-    has_vars=true
-    local var_name=$(echo "$found_var" | tr -d '${}')
-    local var_val=$(echo "${!var_name}" | sed -e 's/[\/&]/\\&/g')
-    sed_cmd="$sed_cmd -e 's/\\\$\\{$var_name\\}/$var_val/g'"
-  done
-  if [ "$has_vars" == "true" ]; then
-    echo "$contents" | eval "$sed_cmd"
-  else
-    echo "$contents"
-  fi
-}
 
 launchd_path=""
 launchd_type=""
@@ -75,7 +52,7 @@ launchd_out="$launchd_path/$launchd_type/$LAUNCHD_FILE"
 temp_config="$(mktemp -d)/$LAUNCHD_FILE"
 echo "$launchd_type config is below..."
 echo
-cat "$LAUNCHD_CONFIG_HOME/$LAUNCHD_FILE" | replace_contents_with_env_vars | tee "$temp_config"
+cat "$LAUNCHD_CONFIG_HOME/$LAUNCHD_FILE" | envsubst | tee "$temp_config"
 echo
 
 if ! confirm "Load to $launchd_out?"; then
