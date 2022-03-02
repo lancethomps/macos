@@ -15,8 +15,8 @@
     <key>StartInterval</key>
     <integer>${START_INTERVAL}</integer>
     <key>StandardOutPath</key>
-    <string>/Users/${USER}/Library/Logs/com.github.lancethomps.launchd.log</string>
+    <string>/Users/${USER}/Library/Logs/lt_logs/com.github.lancethomps.launchd.log</string>
     <key>StandardErrorPath</key>
-    <string>/Users/${USER}/Library/Logs/com.github.lancethomps.launchd.log</string>
+    <string>/Users/${USER}/Library/Logs/lt_logs/com.github.lancethomps.launchd.log</string>
   </dict>
 </plist>

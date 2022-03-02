@@ -59,7 +59,7 @@ if ! confirm "Load to $launchd_out?"; then
   exit 1
 fi
 
-LOG_FILE="$HOME/Library/Logs/com.github.lancethomps.launchd.log"
+LOG_FILE="${LTLOGS_DIR}/com.github.lancethomps.launchd.log"
 if ! test -f "$LOG_FILE"; then
   touch "$LOG_FILE"
 fi
