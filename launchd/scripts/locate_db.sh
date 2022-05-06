@@ -42,7 +42,7 @@ add_dir_if_exists '/Users/Shared'
 add_dir_if_exists "$SS_USER_HOME"
 add_dir_if_exists '/usr'
 
-/usr/local/bin/gupdatedb \
+/opt/homebrew/bin/gupdatedb \
   --output="$LOCATE_PATH" \
   --localpaths="${_LOCALPATHS[*]}" \
   --prunepaths='/tmp /var'

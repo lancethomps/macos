@@ -15,8 +15,8 @@ function exec_as_user () {
   return "${PIPESTATUS[0]}"
 }
 function find_command_loc () {
-  if [ -e "/usr/local/bin/$1" ]; then
-    echo "/usr/local/bin/$1"
+  if [ -e "/opt/homebrew/bin/$1" ]; then
+    echo "/opt/homebrew/bin/$1"
   else
     echo "/usr/bin/$1"
   fi

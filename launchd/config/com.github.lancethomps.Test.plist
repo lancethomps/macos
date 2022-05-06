@@ -6,7 +6,7 @@
     <string>com.github.lancethomps.${LAUNCHD_SCRIPT_ID}.plist</string>
     <key>ProgramArguments</key>
     <array>
-      <string>/usr/local/bin/bash</string>
+      <string>/opt/homebrew/bin/bash</string>
       <string>-c</string>
       <string>"${LAUNCHD_SCRIPT_PATH}"</string>
     </array>
