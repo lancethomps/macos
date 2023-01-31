@@ -65,8 +65,8 @@ fi
 log_debug "Generating graph and outputting to: $OUT_FILE"
 exec_as_user_without_prefix /opt/homebrew/bin/flamegraph.pl \
   --hash \
-  --width=2000 \
-  --height=32 \
+  --width=2500 \
+  --height=40 \
   --colors='hot' \
   --title="File System Usage: $(date)" \
   --countname=bytes \
@@ -106,7 +106,7 @@ files.replace_matches_in_file("$OUT_FILE", r"\(([0-9,]+) bytes", repl)
 EOF
 )
 
-exec_as_user_without_prefix "$SS_USER_HOME/.pyenv/shims/python3" -c "$_py_code"
+exec_as_user_without_prefix "$SS_USER_HOME/.asdf/shims/python3" -c "$_py_code"
 
 push_to_git_repo "$OUT_DIR"
 log_finished
