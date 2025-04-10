@@ -2,7 +2,7 @@
 
 export TZ_OFFSET="$(python -c 'import time;import sys;sys.stdout.write(time.strftime("%z"))')"
 function get_timestamp () {
-  echo $(python -c 'from datetime import datetime;import sys;sys.stdout.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]);')" $TZ_OFFSET"
+  echo "$(python -c 'from datetime import datetime;import sys;sys.stdout.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]);') $TZ_OFFSET"
 }
 export run_time="$(get_timestamp)"
 
